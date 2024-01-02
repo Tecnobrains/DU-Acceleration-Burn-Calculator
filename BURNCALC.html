@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spaceship Deceleration Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input {
+      padding: 8px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #result {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Spaceship Deceleration Calculator</h2>
+
+  <label for="velocity">Current Velocity (km/h):</label>
+  <input type="number" id="velocity" placeholder="Enter velocity" required>
+
+  <label for="thrust">Available Thrust (G force units):</label>
+  <input type="number" id="thrust" placeholder="Enter thrust" required>
+
+  <button onclick="calculateDistance()">Calculate Distance</button>
+
+  <div id="result"></div>
+
+  <script>
+    function calculateDistance() {
+      const velocityKmPerHour = parseFloat(document.getElementById('velocity').value);
+      const thrustG = parseFloat(document.getElementById('thrust').value);
+
+      if (isNaN(velocityKmPerHour) || isNaN(thrustG)) {
+        alert('Please enter valid numerical values for velocity and thrust.');
+        return;
+      }
+
+      // Convert velocity from km/h to m/s
+      const velocityMetersPerSec = velocityKmPerHour * (1000 / 3600);
+
+      // Calculate deceleration distance using the formula: distance = (velocity^2) / (2 * acceleration)
+      const decelerationDistanceMeters = (velocityMetersPerSec ** 2) / (2 * thrustG * 9.8);
+
+      // Convert deceleration distance to kilometers
+      const decelerationDistanceKM = decelerationDistanceMeters / 1000;
+
+      // Calculate deceleration distance in SU (1 SU = 200 km)
+      const decelerationDistanceSU = decelerationDistanceKM / 200;
+
+      // Display the result
+      const resultElement = document.getElementById('result');
+      resultElement.textContent = `Deceleration Distance: ${decelerationDistanceKM.toFixed(2)} km and ${decelerationDistanceSU.toFixed(2)} SU`;
+    }
+  </script>
+</body>
+</html>
